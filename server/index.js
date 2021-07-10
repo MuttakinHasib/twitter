@@ -6,6 +6,7 @@ import cors from 'cors';
 import fileUpload from 'express-fileupload';
 import connectDB from './configs/connectDB.js';
 import userRoutes from './routes/userRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
 import { errorHandler, notFound } from './middlewares/error.js';
 
 // Config DotEnv
@@ -34,12 +35,11 @@ app.use(
 // Routes
 
 app.use('/api/user', userRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Error Handler
 app.use(notFound);
 app.use(errorHandler);
 
 // Log Server Connection
-app.listen(port, () =>
-  console.log(`Server running on port: ${port}`)
-);
+app.listen(port, () => console.log(`Server running on port: ${port}`));

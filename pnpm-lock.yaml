@@ -11,10 +11,12 @@ specifiers:
   express-async-handler: ^1.1.4
   express-fileupload: ^1.2.1
   jsonwebtoken: ^8.5.1
+  moment: ^2.29.1
   mongoose: ^5.13.2
   morgan: ^1.10.0
   nodemailer: ^6.6.2
   nodemon: ^2.0.11
+  react-moment: ^1.1.1
 
 dependencies:
   axios: 0.21.1
@@ -26,9 +28,11 @@ dependencies:
   express-async-handler: 1.1.4
   express-fileupload: 1.2.1
   jsonwebtoken: 8.5.1
+  moment: 2.29.1
   mongoose: 5.13.2
   morgan: 1.10.0
   nodemailer: 6.6.2
+  react-moment: 1.1.1_moment@2.29.1
 
 devDependencies:
   concurrently: 6.2.0
@@ -1248,6 +1252,10 @@ packages:
     hasBin: true
     dev: false
 
+  /moment/2.29.1:
+    resolution: {integrity: sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==}
+    dev: false
+
   /mongodb/3.6.8:
     resolution: {integrity: sha512-sDjJvI73WjON1vapcbyBD3Ao9/VN3TKYY8/QX9EPbs22KaCSrQ5rXo5ZZd44tWJ3wl3FlnrFZ+KyUtNH6+1ZPQ==}
     engines: {node: '>=4'}
@@ -1585,6 +1593,16 @@ packages:
       minimist: 1.2.5
       strip-json-comments: 2.0.1
     dev: true
+
+  /react-moment/1.1.1_moment@2.29.1:
+    resolution: {integrity: sha512-WjwvxBSnmLMRcU33do0KixDB+9vP3e84eCse+rd+HNklAMNWyRgZTDEQlay/qK6lcXFPRuEIASJTpEt6pyK7Ww==}
+    peerDependencies:
+      moment: ^2.29.0
+      prop-types: ^15.7.0
+      react: ^16.0 || ^17.0.0
+    dependencies:
+      moment: 2.29.1
+    dev: false
 
   /read-pkg/5.2.0:
     resolution: {integrity: sha512-Ug69mNOpfvKDAc2Q8DRpMjjzdtrnv9HcSMX+4VsZxD1aZ6ZzrIE7rlzXBtWTyhULSMKg076AW6WR5iZpD0JiOg==}

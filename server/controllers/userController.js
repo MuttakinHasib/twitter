@@ -60,6 +60,9 @@ export const activeUser = asyncHandler(async (req, res) => {
         email: user.email,
         avatar: user.avatar,
         birthday: user.birthday,
+        joined: user.joined,
+        following: user.following,
+        followers: user.followers,
         token: generateIdToken(user._id),
       },
       message: `Your account has been successfully activated!`,
@@ -87,6 +90,9 @@ export const login = asyncHandler(async (req, res) => {
         email: user.email,
         avatar: user.avatar,
         birthday: user.birthday,
+        joined: user.joined,
+        following: user.following,
+        followers: user.followers,
         token: generateIdToken(user._id),
       },
       message: `Welcome back ${user.name}!`,
@@ -94,5 +100,102 @@ export const login = asyncHandler(async (req, res) => {
   } else {
     res.status(401);
     throw new Error('Password is incorrect');
+  }
+});
+
+// Get User Profile
+export const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    res.json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        birthday: user.birthday,
+        joined: user.joined,
+        following: user.following,
+        followers: user.followers,
+        token: generateIdToken(user._id),
+      },
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+// Get user by ID
+export const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    res.json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        birthday: user.birthday,
+        joined: user.joined,
+        following: user.following,
+        followers: user.followers,
+        token: generateIdToken(user._id),
+      },
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+// Get all user
+export const getUsers = asyncHandler(async (_req, res) => {
+  const users = await User.find({}).select('-password');
+
+  if (users) {
+    res.json({ users });
+  }
+});
+
+export const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  console.log(req.body);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.birthday = req.body.birthday || user.birthday;
+    if (req.body.avatar) {
+      user.avatar = req.body.avatar;
+    }
+    if (req.body.newPassword) {
+      if (await user.matchPassword(req.body.oldPassword)) {
+        user.password = req.body.newPassword;
+      } else {
+        res.status(400);
+        throw new Error('Current password is incorrect');
+      }
+    }
+
+    const updateUser = await user.save();
+
+    res.json({
+      user: {
+        _id: updateUser._id,
+        name: updateUser.name,
+        email: updateUser.email,
+        avatar: updateUser.avatar,
+        birthday: updateUser.birthday,
+        joined: updateUser.joined,
+        following: updateUser.following,
+        followers: updateUser.followers,
+        token: generateIdToken(updateUser._id),
+      },
+      message: 'Updated successfully',
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
   }
 });

@@ -28,7 +28,7 @@ const Header = () => {
             </svg>
           </a>
         </Link>
-        <div className='flex items-center space-x-3'>
+        <div className='flex items-center space-x-5'>
           {!user ? (
             <Link href='/login'>
               <a className='border-2 border-primary py-2 px-8 text-center bg-white text-primary rounded-md'>
@@ -36,66 +36,78 @@ const Header = () => {
               </a>
             </Link>
           ) : (
-            <Menu as='div' className='relative'>
-              {({ open }) => (
-                <>
-                  <div>
-                    <Menu.Button className='max-w-xs bg-gray-50 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-300 focus:ring-white'>
-                      <span className='sr-only'>Open user menu</span>
-                      <img
-                        className='h-9 w-9 rounded-full'
-                        src={user.avatar}
-                        alt=''
-                      />
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    show={open}
-                    as={Fragment}
-                    enter='transition ease-out duration-100'
-                    enterFrom='transform opacity-0 scale-95'
-                    enterTo='transform opacity-100 scale-100'
-                    leave='transition ease-in duration-75'
-                    leaveFrom='transform opacity-100 scale-100'
-                    leaveTo='transform opacity-0 scale-95'
-                  >
-                    <Menu.Items
-                      static
-                      className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'
+            <>
+              <Link href='/home'>
+                <a className='text-gray-600 text-lg font-medium hover:text-primary transition duration-300'>
+                  Home
+                </a>
+              </Link>
+              <Link href='/connect'>
+                <a className='text-gray-600 text-lg font-medium hover:text-primary transition duration-300'>
+                  Connect
+                </a>
+              </Link>
+              <Menu as='div' className='relative'>
+                {({ open }) => (
+                  <>
+                    <div>
+                      <Menu.Button className='max-w-xs bg-gray-50 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-300 focus:ring-white'>
+                        <span className='sr-only'>Open user menu</span>
+                        <img
+                          className='h-9 w-9 rounded-full'
+                          src={user.avatar}
+                          alt=''
+                        />
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      enter='transition ease-out duration-100'
+                      enterFrom='transform opacity-0 scale-95'
+                      enterTo='transform opacity-100 scale-100'
+                      leave='transition ease-in duration-75'
+                      leaveFrom='transform opacity-100 scale-100'
+                      leaveTo='transform opacity-0 scale-95'
                     >
-                      <Menu.Item>
-                        {({ active }) => (
-                          <div
-                            className={classNames(
-                              active ? 'bg-gray-100' : '',
-                              'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
-                            )}
-                          >
+                      <Menu.Items
+                        static
+                        className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'
+                      >
+                        <Menu.Item>
+                          {({ active }) => (
                             <Link href='/profile'>
-                              <a>Your profile</a>
+                              <a
+                                className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                  'block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100'
+                                )}
+                              >
+                                Your profile
+                              </a>
                             </Link>
-                          </div>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href='#'
-                            onClick={() => dispatch(logout())}
-                            className={classNames(
-                              active ? 'bg-gray-100' : '',
-                              'block px-4 py-2 text-sm text-gray-700'
-                            )}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition>
-                </>
-              )}
-            </Menu>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href='#'
+                              onClick={() => dispatch(logout())}
+                              className={classNames(
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
+                              )}
+                            >
+                              Sign out
+                            </a>
+                          )}
+                        </Menu.Item>
+                      </Menu.Items>
+                    </Transition>
+                  </>
+                )}
+              </Menu>
+            </>
           )}
         </div>
       </div>

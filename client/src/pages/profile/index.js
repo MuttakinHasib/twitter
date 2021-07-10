@@ -1,5 +1,13 @@
+import { PostCard, ProfileCard } from '@components/index';
+import { withAuthRoute } from '@hoc/withAuthRoute';
+
 const ProfilePage = () => {
-  return <div></div>;
+  return (
+    <>
+      <ProfileCard />
+      <PostCard />
+    </>
+  );
 };
 
-export default ProfilePage;
+export default withAuthRoute(ProfilePage);
