@@ -1,12 +1,16 @@
+import { logout } from '@features/auth/authSlice';
 import { Menu, Transition } from '@headlessui/react';
 import Link from 'next/link';
 import { Fragment } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector(state => state.auth);
   return (
     <header className='border-b border-gray-100'>
       <div className='container flex justify-between items-center py-3'>
@@ -25,7 +29,7 @@ const Header = () => {
           </a>
         </Link>
         <div className='flex items-center space-x-3'>
-          {true ? (
+          {!user ? (
             <Link href='/login'>
               <a className='border-2 border-primary py-2 px-8 text-center bg-white text-primary rounded-md'>
                 Log In
@@ -40,7 +44,7 @@ const Header = () => {
                       <span className='sr-only'>Open user menu</span>
                       <img
                         className='h-9 w-9 rounded-full'
-                        src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                        src={user.avatar}
                         alt=''
                       />
                     </Menu.Button>
@@ -61,21 +65,23 @@ const Header = () => {
                     >
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href='#'
+                          <div
                             className={classNames(
                               active ? 'bg-gray-100' : '',
-                              'block px-4 py-2 text-sm text-gray-700'
+                              'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
                             )}
                           >
-                            Your profile
-                          </a>
+                            <Link href='/profile'>
+                              <a>Your profile</a>
+                            </Link>
+                          </div>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href='#'
+                            onClick={() => dispatch(logout())}
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'

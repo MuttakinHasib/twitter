@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./src/",
     "paths": {
-      // "@app/*": ["app/*"],
+      "@app/*": ["app/*"],
       "@components/*": ["components/*"],
       // "@configs/*": ["configs/*"],
-      // "@features/*": ["features/*"],
+      "@features/*": ["features/*"],
       "@hoc/*": ["hoc/*"],
       "@utils/*": ["utils/*"],
       "@styles/*": ["styles/*"]
