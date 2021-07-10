@@ -170,7 +170,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
       user.avatar = req.body.avatar;
     }
     if (req.body.newPassword) {
-      if (await user.matchPassword(req.body.oldPassword)) {
+      if (await user.matchPassword(req.body.password)) {
         user.password = req.body.newPassword;
       } else {
         res.status(400);

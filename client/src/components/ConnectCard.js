@@ -1,0 +1,60 @@
+import Link from 'next/link';
+import Moment from 'react-moment';
+
+const ConnectCard = ({ user }) => {
+  return (
+    <div className='px-5 py-6 flex flex-wrap gap-3 hover:bg-gray-100 transition duration-300'>
+      <img src={user.avatar} alt='' className='w-16 h-16 rounded-full' />
+      <div className='flex-1'>
+        <div className='flex justify-between'>
+          <div>
+            <Link href={`/profile`}>
+              <a className='text-lg font-medium text-gray-800'>{user.name}</a>
+            </Link>
+            <a
+              href={`mailto:${user.email}`}
+              className='block text-lg text-gray-700 font-light hover:underline'
+            >
+              {user.email}
+            </a>
+          </div>
+          <button className='border-2 border-primary text-primary bg-white py-2 h-11 px-8 rounded-3xl cursor-pointer hover:bg-primary/10 transition duration-300'>
+            Follow
+          </button>
+        </div>
+        <div className='flex items-center gap-3 md:gap-5 flex-wrap mt-3'>
+          <div className='flex items-center space-x-3'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
+              />
+            </svg>
+            <p className='text-base text-gray-600'>
+              Joined <Moment fromNow>{'1999-09-28'}</Moment>
+            </p>
+          </div>
+          <h5 className='text-base text-gray-600'>
+            <strong>{user.following.length}</strong> Following
+          </h5>
+          <h5 className='text-base text-gray-600'>
+            <strong>{user.followers.length}</strong> Followers
+          </h5>
+          <h5 className='text-base text-gray-600'>
+            <strong>{user?.tweets?.length}</strong> Tweets
+          </h5>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ConnectCard;

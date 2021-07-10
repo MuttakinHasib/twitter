@@ -41,3 +41,18 @@ export const updateProfile = async ({ token, ...userData }) => {
     errorAlert(handleErrorMessage(err));
   }
 };
+
+// Get all users
+export const getUsers = async () => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    const { data } = await axios.get(`${API_URL}/api/user`, config);
+    return data.users;
+  } catch (err) {
+    errorAlert(handleErrorMessage(err));
+  }
+};
