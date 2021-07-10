@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    birthday: {
+      type: Date,
+      required: true,
+    },
     password: {
       type: String,
       required: true,
@@ -34,6 +38,10 @@ const userSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    joined: {
+      type: Date,
+      default: Date.now(),
+    },
   },
   {
     timestamps: true,

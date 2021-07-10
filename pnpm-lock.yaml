@@ -13,6 +13,7 @@ specifiers:
   jsonwebtoken: ^8.5.1
   mongoose: ^5.13.2
   morgan: ^1.10.0
+  nodemailer: ^6.6.2
   nodemon: ^2.0.11
 
 dependencies:
@@ -27,6 +28,7 @@ dependencies:
   jsonwebtoken: 8.5.1
   mongoose: 5.13.2
   morgan: 1.10.0
+  nodemailer: 6.6.2
 
 devDependencies:
   concurrently: 6.2.0
@@ -1366,6 +1368,11 @@ packages:
   /node-fetch/2.6.1:
     resolution: {integrity: sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==}
     engines: {node: 4.x || >=6.0.0}
+    dev: false
+
+  /nodemailer/6.6.2:
+    resolution: {integrity: sha512-YSzu7TLbI+bsjCis/TZlAXBoM4y93HhlIgo0P5oiA2ua9Z4k+E2Fod//ybIzdJxOlXGRcHIh/WaeCBehvxZb/Q==}
+    engines: {node: '>=6.0.0'}
     dev: false
 
   /nodemon/2.0.11:
