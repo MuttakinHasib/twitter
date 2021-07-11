@@ -221,7 +221,6 @@ export const followUser = asyncHandler(async (req, res) => {
 // Unfollow user
 
 export const unFollowUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const user = await User.findByIdAndUpdate(req.user._id, {
     $pull: { following: req.body.id },
   });

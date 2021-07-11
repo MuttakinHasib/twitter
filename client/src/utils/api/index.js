@@ -35,6 +35,7 @@ export const updateProfile = async ({ token, ...userData }) => {
       Authorization: `Bearer ${token}`,
     },
   };
+  
   try {
     const { data } = await axios.put(
       `${API_URL}/api/user/profile`,
@@ -134,10 +135,9 @@ export const composeTweet = async ({ token, ...tweetData }) => {
   }
 };
 
-// Get All Tweets
-
 /**
  * @param  {String} token
+ * @description Get All Tweets
  */
 export const getTweets = async token => {
   const config = {
@@ -150,6 +150,27 @@ export const getTweets = async token => {
   try {
     const { data } = await axios.get(`${API_URL}/api/tweet`, config);
     return data.tweets;
+  } catch (err) {
+    errorAlert(handleErrorMessage(err));
+  }
+};
+
+/**
+ * @param  {String} {token
+ * @param  {String} id}
+ * @description Delete tweet by ID
+ */
+export const deleteTweet = async ({ token, id }) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const { data } = await axios.delete(`${API_URL}/api/tweet/${id}`, config);
+    successAlert(data.message);
   } catch (err) {
     errorAlert(handleErrorMessage(err));
   }

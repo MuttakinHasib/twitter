@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import Tweet from '../models/Tweet.js';
 import User from '../models/User.js';
@@ -20,7 +19,7 @@ export const composeTweet = asyncHandler(async (req, res) => {
   }
 });
 
-// Compose New tweet
+// Get all tweet
 export const getTweets = asyncHandler(async (req, res) => {
   const { following } = await User.findById(req.user._id).select('following');
   const tweets = await Tweet.find({
@@ -31,5 +30,25 @@ export const getTweets = asyncHandler(async (req, res) => {
 
   if (tweets) {
     res.status(201).json({ tweets });
+  }
+});
+
+// Delete tweet by id
+export const deleteTweet = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const tweet = await Tweet.findById(id);
+  
+  if (String(req.user._id) === String(tweet.user)) {
+    const deleted = await tweet.remove();
+    if (deleted) {
+      res.status(200).json({ message: 'Tweet deleted successfully' });
+    } else {
+      res.status(400);
+      throw new Error('Something went wrong');
+    }
+  } else {
+    res.status(401);
+    throw new Error('Not authorize to delete this post');
   }
 });

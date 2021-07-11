@@ -67,15 +67,13 @@ const ComposeCard = () => {
               <textarea
                 required
                 className='w-full max-h-[50vh] border-none resize-none focus:ring-0 text-lg mb-5'
-                rows='1'
                 placeholder="What's happing?"
                 {...register('text', { required: true })}
               />
               {image && (
-                <img
-                  src={image}
-                  alt=''
-                  className='h-48 w-full object-cover rounded-md'
+                <div
+                  className='py-[25%] w-full border-2 rounded-md overflow-hidden bg-center bg-no-repeat bg-cover'
+                  style={{ backgroundImage: `url(${image})` }}
                 />
               )}
             </div>
