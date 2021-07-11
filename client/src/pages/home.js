@@ -36,22 +36,20 @@ const HomePage = () => {
       </Head>
       <ComposeCard />
       {data?.tweets?.length > 0 && (
-        <>
-          <div className='border border-gray-200 divide-y divide-gray-200 mt-5'>
-            {data?.tweets?.map(tweet => (
-              <PostCard key={tweet?._id} {...{ tweet }} />
-            ))}
-          </div>
+        <div className='border border-gray-200 divide-y divide-gray-200 mt-5'>
+          {data?.tweets?.map(tweet => (
+            <PostCard key={tweet?._id} {...{ tweet }} />
+          ))}
           <Pagination
             size='large'
             currentPageColor='inherit'
             className='mt-5 text-primary text-xl'
-            limit={1}
+            limit={10}
             offset={offset}
             total={data?.pages}
             onClick={(e, offset) => handleClick(offset)}
           />
-        </>
+        </div>
       )}
     </>
   );

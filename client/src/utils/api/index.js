@@ -5,11 +5,12 @@ import {
   handleErrorMessage,
   successAlert,
 } from '@utils/index.js';
-
 /**
  * @param  {String} token
  */
-export const getProfile = async token => {
+export const getProfile = async ({ queryKey }) => {
+  const [_key, token] = queryKey;
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -19,6 +20,26 @@ export const getProfile = async token => {
   try {
     const { data } = await axios.get(`${API_URL}/api/user/profile`, config);
     return data.user;
+  } catch (err) {
+    errorAlert(handleErrorMessage(err));
+  }
+};
+
+/**
+ * @param  {String} token
+ */
+export const getUserById = async ({ queryKey }) => {
+  const [_key, id] = queryKey;
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    if (id) {
+      const { data } = await axios.get(`${API_URL}/api/user/${id}`, config);
+      return data.user;
+    }
   } catch (err) {
     errorAlert(handleErrorMessage(err));
   }
@@ -49,15 +70,20 @@ export const updateProfile = async ({ token, ...userData }) => {
 };
 
 // Get all users
-export const getUsers = async () => {
+export const getUsers = async ({ queryKey }) => {
+  const [_key, offset] = queryKey;
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
+
   try {
-    const { data } = await axios.get(`${API_URL}/api/user`, config);
-    return data.users;
+    const { data } = await axios.get(
+      `${API_URL}/api/user?skip=${offset}`,
+      config
+    );
+    return data;
   } catch (err) {
     errorAlert(handleErrorMessage(err));
   }
@@ -175,11 +201,13 @@ export const getUserTweets = async ({ queryKey }) => {
   };
 
   try {
-    const { data } = await axios.get(
-      `${API_URL}/api/tweet/${id}/?skip=${offset}`,
-      config
-    );
-    return data;
+    if (id) {
+      const { data } = await axios.get(
+        `${API_URL}/api/tweet/${id}/?skip=${offset}`,
+        config
+      );
+      return data;
+    }
   } catch (err) {
     errorAlert(handleErrorMessage(err));
   }

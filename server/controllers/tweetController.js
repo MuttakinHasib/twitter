@@ -34,9 +34,10 @@ export const getTweets = asyncHandler(async (req, res) => {
     .limit(pageSize)
     .skip(Number(skip));
 
-  const pages = Math.ceil(count / pageSize);
   if (tweets) {
-    res.status(200).json({ tweets, pages, hasMore: count > Number(skip) + 1 });
+    res
+      .status(200)
+      .json({ tweets, pages: count, hasMore: count > Number(skip) + 1 });
   } else {
     res.status(404);
     throw new Error('Tweets not found');
@@ -46,19 +47,19 @@ export const getTweets = asyncHandler(async (req, res) => {
 // GET user tweets by user id
 export const getUserTweets = asyncHandler(async (req, res) => {
   const { skip } = req.query;
-  const pageSize = 1;
-  const count = await Tweet.countDocuments({ user: req.user._id });
+  const pageSize = 10;
+  const count = await Tweet.countDocuments({ user: req.params.id });
 
-  const tweets = await Tweet.find({ user: req.user._id })
+  const tweets = await Tweet.find({ user: req.params.id })
     .sort([['_id', 'desc']])
     .populate('user')
     .limit(pageSize)
     .skip(Number(skip));
 
-  const pages = Math.ceil(count / pageSize);
-
   if (tweets) {
-    res.status(200).json({ tweets, pages, hasMore: count > Number(skip) + 1 });
+    res
+      .status(200)
+      .json({ tweets, pages: count, hasMore: count > Number(skip) + 1 });
   } else {
     res.status(404);
     throw new Error('Tweets not found');

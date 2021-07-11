@@ -16,10 +16,12 @@ function classNames(...classes) {
 }
 
 const PostCard = ({ tweet }) => {
+  
   const client = useQueryClient();
   const {
     user: { _id, token },
   } = useSelector(state => state.auth);
+
   const { mutateAsync: attemptDeleteTweet } = useMutation(deleteTweet);
   const { mutateAsync: attemptUnfollow } = useMutation(unFollowUser);
   const { mutateAsync: attemptLikeTweet } = useMutation(likeTweet);
@@ -41,9 +43,11 @@ const PostCard = ({ tweet }) => {
    */
   const handleDelete = async id => {
     await attemptDeleteTweet({ token, id });
+    if (tweet?.image?.public_id) {
+      await deleteTweetImage(token, tweet?.image?.public_id);
+    }
     await client.invalidateQueries('tweets');
     // Also delete tweet image
-    await deleteTweetImage(token, tweet.image.public_id);
   };
 
   /**

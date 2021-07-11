@@ -13,11 +13,11 @@ const ProfileCard = ({ tweets }) => {
   const dispatch = useDispatch();
   const [uploading, setUploading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useSelector(state => state.auth);
+  const {
+    user: { token },
+  } = useSelector(state => state.auth);
 
-  const { data: profile, isLoading } = useQuery('profile', () =>
-    getProfile(user.token)
-  );
+  const { data: profile, isLoading } = useQuery(['profile', token], getProfile);
 
   const handleAvatar = async e => {
     e.preventDefault();

@@ -32,8 +32,8 @@ const ConnectCard = ({ user }) => {
       <div className='flex-1'>
         <div className='flex justify-between'>
           <div>
-            <Link href={`/profile`}>
-              <a className='text-lg font-medium text-gray-800'>{user.name}</a>
+            <Link href={`/profile/${user._id}`}>
+              <a className='text-lg font-medium text-gray-800 hover:underline'>{user.name}</a>
             </Link>
             <a
               href={`mailto:${user.email}`}
@@ -87,9 +87,6 @@ const ConnectCard = ({ user }) => {
           </h5>
           <h5 className='text-base text-gray-600'>
             <strong>{user.followers.length}</strong> Followers
-          </h5>
-          <h5 className='text-base text-gray-600'>
-            <strong>{user?.tweets?.length}</strong> Tweets
           </h5>
         </div>
       </div>
