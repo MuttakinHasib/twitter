@@ -3,10 +3,6 @@ import { likeTweet, unlikeTweet } from '@utils/api';
 import { useMutation, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
-
 const UserPostCard = ({ tweet }) => {
   const client = useQueryClient();
   const {
