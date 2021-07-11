@@ -1,7 +1,13 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
 import { Menu, Transition } from '@headlessui/react';
-import { deleteTweet, unFollowUser } from '@utils/api';
+import {
+  deleteTweet,
+  deleteTweetImage,
+  likeTweet,
+  unFollowUser,
+  unlikeTweet,
+} from '@utils/api';
 import { useMutation, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 
@@ -16,25 +22,58 @@ const PostCard = ({ tweet }) => {
   } = useSelector(state => state.auth);
   const { mutateAsync: attemptDeleteTweet } = useMutation(deleteTweet);
   const { mutateAsync: attemptUnfollow } = useMutation(unFollowUser);
+  const { mutateAsync: attemptLikeTweet } = useMutation(likeTweet);
+  const { mutateAsync: attemptUnlikeTweet } = useMutation(unlikeTweet);
 
+  /**
+   * @param  {String} id - User ID
+   */
   const handleUnfollow = async id => {
     await attemptUnfollow({ token, id });
+    // Refetch users
     await client.invalidateQueries('users');
+    // Refetch tweets
     await client.invalidateQueries('tweets');
   };
 
+  /**
+   * @param  {String} id - tweet ID
+   */
   const handleDelete = async id => {
     await attemptDeleteTweet({ token, id });
     await client.invalidateQueries('tweets');
+    // Also delete tweet image
+    await deleteTweetImage(token, tweet.image.public_id);
   };
+
+  /**
+   * @param  {String} id - tweet ID
+   */
+  const handleLike = async id => {
+    await attemptLikeTweet({ token, id });
+    // Refetch tweets
+    await client.invalidateQueries('tweets');
+  };
+
+  /**
+   * @param  {String} id - tweet ID
+   */
+  const handleUnlike = async id => {
+    await attemptUnlikeTweet({ token, id });
+    await client.invalidateQueries('tweets');
+  };
+
+  const isLiked = tweet.likes.find(id => id === _id);
 
   return (
     <div className=' py-5 px-5 md:px-8 flex flex-wrap gap-3 hover:bg-gray-50  transition duration-300'>
-      <img
-        src={tweet?.user?.avatar}
-        alt=''
-        className='w-14 h-14 rounded-full'
-      />
+      <div className='border-2 border-gray-100 w-14 h-14 rounded-full overflow-hidden'>
+        <img
+          src={tweet?.user?.avatar}
+          alt=''
+          className='w-full h-full object-cover'
+        />
+      </div>
       <div className='flex-1'>
         <div className='flex justify-between'>
           <div>
@@ -104,20 +143,22 @@ const PostCard = ({ tweet }) => {
                         )}
                       </Menu.Item>
                     )}
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href='#'
-                          onClick={() => handleDelete(tweet?._id)}
-                          className={classNames(
-                            active ? 'bg-gray-100' : '',
-                            'block px-4 py-2 text-sm text-red-700'
-                          )}
-                        >
-                          Delete
-                        </a>
-                      )}
-                    </Menu.Item>
+                    {tweet?.user?._id === _id && (
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href='#'
+                            onClick={() => handleDelete(tweet?._id)}
+                            className={classNames(
+                              active ? 'bg-gray-100' : '',
+                              'block px-4 py-2 text-sm text-red-700'
+                            )}
+                          >
+                            Delete
+                          </a>
+                        )}
+                      </Menu.Item>
+                    )}
                   </Menu.Items>
                 </Transition>
               </>
@@ -126,43 +167,68 @@ const PostCard = ({ tweet }) => {
         </div>
         <div className='space-y-5'>
           <p className='text-base text-gray-700'>{tweet?.text}</p>
-          {tweet?.image && (
+          {tweet?.image?.url && (
             <div
               className='py-[30%] w-full border-2 rounded-md overflow-hidden bg-center bg-no-repeat bg-cover'
-              style={{ backgroundImage: `url(${tweet?.image})` }}
+              style={{ backgroundImage: `url(${tweet?.image?.url})` }}
             />
           )}
         </div>
-        {/* <div className='flex items-center gap-3 md:gap-5 flex-wrap mt-3'>
-          <div className='flex items-center space-x-3'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
+        {!isLiked ? (
+          <div className='flex items-center gap-3 md:gap-5 flex-wrap mt-3'>
+            <button
+              className='border border-red-100 w-10 h-10 rounded-full hover:bg-red-200 flex items-center justify-center'
+              onClick={() => handleLike(String(tweet?._id))}
             >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
-              />
-            </svg>
-            <p className='text-base text-gray-600'>
-              Joined <Moment fromNow>{'1999-09-28'}</Moment>
-            </p>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-6 w-6 text-red-600'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={1.5}
+                  d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
+                />
+              </svg>
+            </button>
+            {tweet?.likes?.length > 0 && (
+              <span className='text-base text-gray-600'>
+                {tweet?.likes?.length > 0 && tweet?.likes?.length}{' '}
+                {tweet?.likes?.length > 1 ? 'Likes' : 'Like'}
+              </span>
+            )}
           </div>
-          <h5 className='text-base text-gray-600'>
-            <strong>{user.following.length}</strong> Following
-          </h5>
-          <h5 className='text-base text-gray-600'>
-            <strong>{user.followers.length}</strong> Followers
-          </h5>
-          <h5 className='text-base text-gray-600'>
-            <strong>{user?.tweets?.length}</strong> Tweets
-          </h5>
-        </div> */}
+        ) : (
+          <div className='flex items-center gap-3 md:gap-5 flex-wrap mt-3'>
+            <button
+              className='border border-red-100 w-10 h-10 rounded-full hover:bg-red-200 flex items-center justify-center'
+              onClick={() => handleUnlike(String(tweet?._id))}
+            >
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-5 w-5 text-red-600'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z'
+                  clipRule='evenodd'
+                />
+              </svg>
+            </button>
+            {tweet?.likes?.length > 0 && (
+              <span className='text-base text-gray-600'>
+                {tweet?.likes?.length > 0 && tweet?.likes?.length}{' '}
+                {tweet?.likes?.length > 1 ? 'Likes' : 'Like'}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

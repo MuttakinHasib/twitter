@@ -9,11 +9,12 @@ import Spinner from 'react-loader-spinner';
 import { attemptUpdateProfile } from '@features/user/userActions';
 import ProfileEditModel from './ProfileEditModel';
 
-const ProfileCard = () => {
+const ProfileCard = ({ tweets }) => {
   const dispatch = useDispatch();
   const [uploading, setUploading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useSelector(state => state.auth);
+
   const { data: profile, isLoading } = useQuery('profile', () =>
     getProfile(user.token)
   );
@@ -89,13 +90,13 @@ const ProfileCard = () => {
           </div>
           <div className='space-y-3'>
             <h3 className='text-xl text-gray-800 font-medium'>
-              {profile.name}
+              {profile?.name}
             </h3>
             <a
-              href={`mailto:${profile.email}`}
+              href={`mailto:${profile?.email}`}
               className='text-lg text-gray-700 font-light hover:underline'
             >
-              {profile.email}
+              {profile?.email}
             </a>
           </div>
         </div>
@@ -124,17 +125,17 @@ const ProfileCard = () => {
             />
           </svg>
           <p className='text-base text-gray-600'>
-            Joined <Moment fromNow>{profile.joined}</Moment>
+            Joined <Moment fromNow>{profile?.joined}</Moment>
           </p>
         </div>
         <h5 className='text-base text-gray-600'>
-          <strong>{profile.following.length}</strong> Following
+          <strong>{profile?.following?.length}</strong> Following
         </h5>
         <h5 className='text-base text-gray-600'>
-          <strong>{profile.followers.length}</strong> Followers
+          <strong>{profile?.followers?.length}</strong> Followers
         </h5>
         <h5 className='text-base text-gray-600'>
-          <strong>{0}</strong> Tweets
+          <strong>{tweets}</strong> Tweets
         </h5>
       </div>
       <ProfileEditModel {...{ isOpen, setIsOpen }} />

@@ -41,7 +41,21 @@ export const uploadTweet = asyncHandler(async (req, res) => {
 
   if (result) {
     removeTemp(file.tempFilePath);
-    res.json({ url: result.secure_url });
+    res.json({ public_id: result.public_id, url: result.secure_url });
+  } else {
+    res.status(400);
+    throw new Error('Something went wrong');
+  }
+});
+
+// Delete tweet image
+export const deleteTweetImage = asyncHandler(async (req, res) => {
+  const { public_id } = req.body;
+
+  const result = await cloudinary.uploader.destroy(public_id);
+
+  if (result) {
+    res.json({ message: 'Image removed' });
   } else {
     res.status(400);
     throw new Error('Something went wrong');

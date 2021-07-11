@@ -1,5 +1,5 @@
-import { composeTweet } from '@utils/api';
-import { API_URL } from '@utils/index';
+import { composeTweet, deleteTweetImage } from '@utils/api';
+import { API_URL, successAlert } from '@utils/index';
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -11,9 +11,9 @@ import { useSelector } from 'react-redux';
 const ComposeCard = () => {
   const client = useQueryClient();
   const [uploading, setUploading] = useState(false);
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState({});
   const { user } = useSelector(state => state.auth);
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, setValue } = useForm();
   const { mutateAsync, isLoading } = useMutation(composeTweet);
 
   const handleTweetImage = async e => {
@@ -37,7 +37,7 @@ const ComposeCard = () => {
         formData,
         config
       );
-      setImage(data.url);
+      setImage(data);
       setUploading(false);
     } catch (err) {
       setUploading(false);
@@ -48,19 +48,26 @@ const ComposeCard = () => {
   const onSubmit = async data => {
     await mutateAsync({ token: user.token, ...{ ...data, image } });
     await client.invalidateQueries('tweets');
+    setImage('');
+    setValue('text', '');
   };
-
+  const handleDeleteTweetImage = async () => {
+    const message = await deleteTweetImage(user.token, image.public_id);
+    if (message) {
+      successAlert(message);
+    }
+    setImage({});
+  };
   return (
     <div className='border border-gray-200 py-5 px-5 md:px-8 mt-5'>
       <div className='flex gap-3 flex-wrap'>
         <div className='w-14 h-14 rounded-[50%] overflow-hidden'>
           <img
-            src={user.avatar}
+            src={user?.avatar}
             alt=''
             className='w-full h-full object-cover'
           />
         </div>
-
         <form className='flex-1' onSubmit={handleSubmit(onSubmit)}>
           <div>
             <div className='border-0 border-b focus:border-gray-100 border-gray-100 mb-5'>
@@ -70,11 +77,33 @@ const ComposeCard = () => {
                 placeholder="What's happing?"
                 {...register('text', { required: true })}
               />
-              {image && (
+              {image?.url && (
                 <div
-                  className='py-[25%] w-full border-2 rounded-md overflow-hidden bg-center bg-no-repeat bg-cover'
-                  style={{ backgroundImage: `url(${image})` }}
-                />
+                  className='relative py-[25%] w-full border-2 rounded-md overflow-hidden bg-center bg-no-repeat bg-cover group transition-all duration-300'
+                  style={{ backgroundImage: `url(${image?.url})` }}
+                >
+                  <div className='absolute inset-0 opacity-0 invisible bg-black/10 group-hover:opacity-100 group-hover:visible transition-all duration-300'></div>
+                  <button
+                    type='button'
+                    className='hidden hover:bg-red-600 border border-red-500 bg-red-500 text-white absolute top-2 left-2 w-12 h-12 rounded-full group-hover:flex items-center justify-center transition-all duration-300'
+                    onClick={handleDeleteTweetImage}
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      className='h-6 w-6'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      stroke='currentColor'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={2}
+                        d='M6 18L18 6M6 6l12 12'
+                      />
+                    </svg>
+                  </button>
+                </div>
               )}
             </div>
             <div className='flex items-center justify-between flex-wrap gap-3'>

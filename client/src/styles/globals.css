@@ -7,3 +7,7 @@
     @apply font-roboto;
   }
 }
+
+.MuiButton-label.MuiFlatPageButton-label.MuiFlatPagination-label {
+  @apply text-xl !important;
+}

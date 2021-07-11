@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header />
-      <main className='max-w-4xl w-full mx-auto container pb-16'>
+      <main className='max-w-3xl w-full mx-auto container pb-16'>
         {children}
       </main>
       <Toaster

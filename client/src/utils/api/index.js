@@ -35,7 +35,7 @@ export const updateProfile = async ({ token, ...userData }) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  
+
   try {
     const { data } = await axios.put(
       `${API_URL}/api/user/profile`,
@@ -139,7 +139,8 @@ export const composeTweet = async ({ token, ...tweetData }) => {
  * @param  {String} token
  * @description Get All Tweets
  */
-export const getTweets = async token => {
+export const getTweets = async ({ queryKey }) => {
+  const [_key, token, offset] = queryKey;
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -148,8 +149,37 @@ export const getTweets = async token => {
   };
 
   try {
-    const { data } = await axios.get(`${API_URL}/api/tweet`, config);
-    return data.tweets;
+    const { data } = await axios.get(
+      `${API_URL}/api/tweet?skip=${offset}`,
+      config
+    );
+    return data;
+  } catch (err) {
+    errorAlert(handleErrorMessage(err));
+  }
+};
+
+/**
+ * @param  {String} {token
+ * @param  {String} id}
+ * @description Delete tweet by ID
+ */
+export const getUserTweets = async ({ queryKey }) => {
+  const [_key, id, offset, token] = queryKey;
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const { data } = await axios.get(
+      `${API_URL}/api/tweet/${id}/?skip=${offset}`,
+      config
+    );
+    return data;
   } catch (err) {
     errorAlert(handleErrorMessage(err));
   }
@@ -171,6 +201,80 @@ export const deleteTweet = async ({ token, id }) => {
   try {
     const { data } = await axios.delete(`${API_URL}/api/tweet/${id}`, config);
     successAlert(data.message);
+  } catch (err) {
+    errorAlert(handleErrorMessage(err));
+  }
+};
+
+/**
+ * @param  {String} {token
+ * @param  {String} tweet_id}
+ * @description Like tweet
+ */
+export const likeTweet = async ({ token, id }) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const { data } = await axios.put(
+      `${API_URL}/api/tweet/like`,
+      { id },
+      config
+    );
+    successAlert(data.message);
+  } catch (err) {
+    errorAlert(handleErrorMessage(err));
+  }
+};
+
+/**
+ * @param  {String} {token
+ * @param  {String} tweet_id}
+ * @description Unlike tweet
+ */
+export const unlikeTweet = async ({ token, id }) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const { data } = await axios.post(
+      `${API_URL}/api/tweet/unlike`,
+      { id },
+      config
+    );
+    successAlert(data.message);
+  } catch (err) {
+    errorAlert(handleErrorMessage(err));
+  }
+};
+
+/**
+ * @param  {String} {token
+ * @param  {String} public_id}
+ * @description Delete tweet image
+ */
+
+export const deleteTweetImage = async (token, public_id) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const { data } = await axios.post(
+      `${API_URL}/api/upload/delete`,
+      { public_id },
+      config
+    );
+    return data.message;
   } catch (err) {
     errorAlert(handleErrorMessage(err));
   }

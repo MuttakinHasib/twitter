@@ -1,7 +1,9 @@
 import toast from 'react-hot-toast';
 
-export const API_URL = process.env.API_URL || 'http://localhost:5000';
+export const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
+// Handle Error messages
 export const handleErrorMessage = err =>
   err.response && (err.response.data.message || err.response.data.error)
     ? err.response.data.message || err.response.data.error
