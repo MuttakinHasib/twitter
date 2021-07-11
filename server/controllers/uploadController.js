@@ -31,7 +31,7 @@ export const uploadAvatar = asyncHandler(async (req, res) => {
   }
 });
 
-// Upload tweet Image
+// Upload Tweet
 export const uploadTweet = asyncHandler(async (req, res) => {
   const file = req.files.tweet;
 

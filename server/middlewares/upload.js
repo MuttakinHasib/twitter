@@ -7,7 +7,7 @@ export const uploader = asyncHandler(async (req, res, next) => {
     throw new Error('No files were uploaded');
   }
 
-  const file = req.files.avatar || req.files.product;
+  const file = req.files.avatar || req.files.tweet;
 
   const fileTypes = /jpg|jpeg|png|webp/;
   const mimetype = fileTypes.test(file?.mimetype);

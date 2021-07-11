@@ -109,3 +109,48 @@ export const unFollowUser = async ({ token, id }) => {
     errorAlert(handleErrorMessage(err));
   }
 };
+
+/**
+ * @param  {String} {token
+ * @param  {object} ...tweetData}
+ */
+export const composeTweet = async ({ token, ...tweetData }) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const { data } = await axios.post(
+      `${API_URL}/api/tweet`,
+      { ...tweetData },
+      config
+    );
+    successAlert(data.message);
+  } catch (err) {
+    errorAlert(handleErrorMessage(err));
+  }
+};
+
+// Get All Tweets
+
+/**
+ * @param  {String} token
+ */
+export const getTweets = async token => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const { data } = await axios.get(`${API_URL}/api/tweet`, config);
+    return data.tweets;
+  } catch (err) {
+    errorAlert(handleErrorMessage(err));
+  }
+};

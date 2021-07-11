@@ -6,6 +6,7 @@ import cors from 'cors';
 import fileUpload from 'express-fileupload';
 import connectDB from './configs/connectDB.js';
 import userRoutes from './routes/userRoutes.js';
+import tweetRoutes from './routes/tweetRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import { errorHandler, notFound } from './middlewares/error.js';
 
@@ -23,7 +24,6 @@ app.use(cors());
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
-  9;
 }
 
 app.use(express.json());
@@ -32,9 +32,10 @@ app.use(
     useTempFiles: true,
   })
 );
-// Routes
 
+// Routes
 app.use('/api/user', userRoutes);
+app.use('/api/tweet', tweetRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // Error Handler

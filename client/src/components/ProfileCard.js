@@ -1,7 +1,6 @@
 import { API_URL } from '@utils/index';
 import { getProfile } from '@utils/api';
 import axios from 'axios';
-import Link from 'next/link';
 import { useState } from 'react';
 import Moment from 'react-moment';
 import { useQuery } from 'react-query';
