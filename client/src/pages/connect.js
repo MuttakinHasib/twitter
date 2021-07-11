@@ -1,4 +1,5 @@
 import ConnectCard from '@components/ConnectCard';
+import { withAuthRoute } from '@hoc/withAuthRoute';
 import { getUsers } from '@utils/api';
 
 import { useQuery } from 'react-query';
@@ -17,4 +18,4 @@ const ConnectPage = () => {
   );
 };
 
-export default ConnectPage;
+export default withAuthRoute(ConnectPage);

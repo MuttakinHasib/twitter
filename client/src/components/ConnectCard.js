@@ -1,7 +1,31 @@
+import { followUser, unFollowUser } from '@utils/api';
 import Link from 'next/link';
 import Moment from 'react-moment';
+import { useMutation, useQueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
 
 const ConnectCard = ({ user }) => {
+  const client = useQueryClient();
+  const {
+    user: { _id, token },
+  } = useSelector(state => state.auth);
+  const following = user.followers.find(id => id === _id);
+  const { mutateAsync: follow, isLoading: isFollowing } =
+    useMutation(followUser);
+
+  const { mutateAsync: unfollow, isLoading: isUnFollowing } =
+    useMutation(unFollowUser);
+
+  const handleFollow = async id => {
+    await follow({ token, id });
+    await client.invalidateQueries('users');
+  };
+
+  const handleUnFollow = async id => {
+    await unfollow({ token, id });
+    await client.invalidateQueries('users');
+  };
+
   return (
     <div className='px-5 py-6 flex flex-wrap gap-3 hover:bg-gray-100 transition duration-300'>
       <img src={user.avatar} alt='' className='w-16 h-16 rounded-full' />
@@ -18,9 +42,25 @@ const ConnectCard = ({ user }) => {
               {user.email}
             </a>
           </div>
-          <button className='border-2 border-primary text-primary bg-white py-2 h-11 px-8 rounded-3xl cursor-pointer hover:bg-primary/10 transition duration-300'>
-            Follow
-          </button>
+          {user._id !== _id && (
+            <>
+              {following ? (
+                <button
+                  className='border-2 border-primary text-white bg-primary py-2 h-11 px-8 rounded-3xl cursor-pointer hover:bg-red-500 hover:border-red-500 transition duration-300'
+                  onClick={() => handleUnFollow(user._id)}
+                >
+                  Following
+                </button>
+              ) : (
+                <button
+                  className='border-2 border-primary text-primary bg-white py-2 h-11 px-8 rounded-3xl cursor-pointer hover:bg-primary/10 transition duration-300'
+                  onClick={() => handleFollow(user._id)}
+                >
+                  Follow
+                </button>
+              )}
+            </>
+          )}
         </div>
         <div className='flex items-center gap-3 md:gap-5 flex-wrap mt-3'>
           <div className='flex items-center space-x-3'>

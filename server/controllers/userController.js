@@ -199,3 +199,40 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+
+// Follow user
+
+export const followUser = asyncHandler(async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    $addToSet: { following: req.body.id },
+  });
+  const user_2 = await User.findByIdAndUpdate(req.body.id, {
+    $addToSet: { followers: req.user._id },
+  });
+
+  const following = await user.save();
+  const followers = await user_2.save();
+
+  if (following && followers) {
+    res.json({ message: 'Following' });
+  }
+});
+
+// Unfollow user
+
+export const unFollowUser = asyncHandler(async (req, res) => {
+  console.log(req.body);
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    $pull: { following: req.body.id },
+  });
+  const user_2 = await User.findByIdAndUpdate(req.body.id, {
+    $pull: { followers: req.user._id },
+  });
+
+  const following = await user.save();
+  const followers = await user_2.save();
+
+  if (following && followers) {
+    res.json({ message: 'Unfollow' });
+  }
+});
