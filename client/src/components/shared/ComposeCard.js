@@ -7,6 +7,7 @@ import Spinner from 'react-loader-spinner';
 import { useQueryClient } from 'react-query';
 import { useMutation } from 'react-query';
 import { useSelector } from 'react-redux';
+import Loader from './Loader';
 
 const ComposeCard = () => {
   const client = useQueryClient();
@@ -60,6 +61,7 @@ const ComposeCard = () => {
   };
   return (
     <div className='border border-gray-200 py-5 px-5 md:px-8 mt-5'>
+      {isLoading && <Loader />}
       <div className='flex gap-3 flex-wrap'>
         <div className='w-14 h-14 rounded-[50%] overflow-hidden'>
           <img
