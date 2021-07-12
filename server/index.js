@@ -38,6 +38,12 @@ app.use('/api/user', userRoutes);
 app.use('/api/tweet', tweetRoutes);
 app.use('/api/upload', uploadRoutes);
 
+// Routes
+
+app.get('/', (_req, res) => {
+  res.json({ message: 'Welcome to anafiya shop.' });
+});
+
 // Error Handler
 app.use(notFound);
 app.use(errorHandler);

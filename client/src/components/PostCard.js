@@ -10,19 +10,20 @@ import {
 } from '@utils/api';
 import { useMutation, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
+import { Loader } from './shared';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 const PostCard = ({ tweet }) => {
-  
   const client = useQueryClient();
   const {
     user: { _id, token },
   } = useSelector(state => state.auth);
 
-  const { mutateAsync: attemptDeleteTweet } = useMutation(deleteTweet);
+  const { mutateAsync: attemptDeleteTweet, isLoading: isDeleting } =
+    useMutation(deleteTweet);
   const { mutateAsync: attemptUnfollow } = useMutation(unFollowUser);
   const { mutateAsync: attemptLikeTweet } = useMutation(likeTweet);
   const { mutateAsync: attemptUnlikeTweet } = useMutation(unlikeTweet);
@@ -71,6 +72,7 @@ const PostCard = ({ tweet }) => {
 
   return (
     <div className=' py-5 px-5 md:px-8 flex flex-wrap gap-3 hover:bg-gray-50  transition duration-300'>
+      {isDeleting && <Loader />}
       <div className='border-2 border-gray-100 w-14 h-14 rounded-full overflow-hidden'>
         <img
           src={tweet?.user?.avatar}

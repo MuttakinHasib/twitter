@@ -1,4 +1,4 @@
-import { Loader, PostCard, ProfileCard } from '@components/index';
+import { EmptyData, Loader, PostCard, ProfileCard } from '@components/index';
 import { withAuthRoute } from '@hoc/withAuthRoute';
 import { getProfile, getUserTweets } from '@utils/api';
 import { useEffect, useState } from 'react';
@@ -35,7 +35,7 @@ const ProfilePage = () => {
   return (
     <>
       <ProfileCard tweets={data?.pages} {...{ profile }} />
-      {data?.tweets?.length > 0 && (
+      {data?.tweets?.length > 0 ? (
         <div className='border border-gray-200 divide-y divide-gray-200 mt-5'>
           {data?.tweets?.map(tweet => (
             <PostCard key={tweet?._id} {...{ tweet }} />
@@ -50,6 +50,8 @@ const ProfilePage = () => {
             onClick={(e, offset) => handleClick(offset)}
           />
         </div>
+      ) : (
+        <EmptyData />
       )}
     </>
   );

@@ -1,4 +1,9 @@
-import { Loader, UserPostCard, UserProfileCard } from '@components/index';
+import {
+  EmptyData,
+  Loader,
+  UserPostCard,
+  UserProfileCard,
+} from '@components/index';
 import { withAuthRoute } from '@hoc/withAuthRoute';
 import { getUserById, getUserTweets } from '@utils/api';
 import { useEffect, useState } from 'react';
@@ -44,7 +49,7 @@ const UserProfilePage = () => {
   return (
     <>
       {user && <UserProfileCard tweets={data?.pages} {...{ user }} />}
-      {data?.tweets?.length > 0 && (
+      {data?.tweets?.length > 0 ? (
         <div className='border border-gray-200 divide-y divide-gray-200 mt-5'>
           {data?.tweets?.map(tweet => (
             <UserPostCard key={tweet?._id} {...{ tweet }} />
@@ -59,6 +64,8 @@ const UserProfilePage = () => {
             onClick={(e, offset) => handleClick(offset)}
           />
         </div>
+      ) : (
+        <EmptyData />
       )}
     </>
   );
