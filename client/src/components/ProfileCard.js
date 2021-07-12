@@ -24,7 +24,7 @@ const ProfileCard = ({ tweets, profile }) => {
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${profile.token}`,
         },
       };
 

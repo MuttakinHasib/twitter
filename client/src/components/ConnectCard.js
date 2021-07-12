@@ -9,7 +9,7 @@ const ConnectCard = ({ user }) => {
   const {
     user: { _id, token },
   } = useSelector(state => state.auth);
-  const following = user.followers.find(id => id === _id);
+  const following = user?.followers.find(id => id === _id);
   const { mutateAsync: follow, isLoading: isFollowing } =
     useMutation(followUser);
 
@@ -28,35 +28,35 @@ const ConnectCard = ({ user }) => {
 
   return (
     <div className='px-5 py-6 flex flex-col sm:flex-row flex-wrap gap-3 hover:bg-gray-100 transition duration-300 relative'>
-      <img src={user.avatar} alt='' className='w-16 h-16 rounded-full' />
+      <img src={user?.avatar} alt='' className='w-16 h-16 rounded-full' />
       <div className='flex-1'>
         <div className='flex justify-between'>
           <div>
-            <Link href={`/profile/${user._id}`}>
+            <Link href={`/profile/${user?._id}`}>
               <a className='text-lg font-medium text-gray-800 hover:underline'>
-                {user.name}
+                {user?.name}
               </a>
             </Link>
             <a
-              href={`mailto:${user.email}`}
+              href={`mailto:${user?.email}`}
               className='block text-lg text-gray-700 font-light hover:underline'
             >
-              {user.email}
+              {user?.email}
             </a>
           </div>
-          {user._id !== _id && (
+          {user?._id !== _id && (
             <>
               {following ? (
                 <button
                   className='absolute top-3 right-3 sm:static border-2 border-primary text-white bg-primary py-2 h-11 px-8 rounded-3xl cursor-pointer hover:bg-red-500 hover:border-red-500 transition duration-300'
-                  onClick={() => handleUnFollow(user._id)}
+                  onClick={() => handleUnFollow(user?._id)}
                 >
                   Following
                 </button>
               ) : (
                 <button
                   className='absolute top-3 right-3 sm:static border-2 border-primary text-primary bg-white py-2 h-11 px-8 rounded-3xl cursor-pointer hover:bg-primary/10 transition duration-300'
-                  onClick={() => handleFollow(user._id)}
+                  onClick={() => handleFollow(user?._id)}
                 >
                   Follow
                 </button>
@@ -81,14 +81,14 @@ const ConnectCard = ({ user }) => {
               />
             </svg>
             <p className='text-base text-gray-600'>
-              Joined <Moment fromNow>{'1999-09-28'}</Moment>
+              Joined <Moment fromNow>{user?.joined}</Moment>
             </p>
           </div>
           <h5 className='text-base text-gray-600'>
-            <strong>{user.following.length}</strong> Following
+            <strong>{user?.following.length}</strong> Following
           </h5>
           <h5 className='text-base text-gray-600'>
-            <strong>{user.followers.length}</strong> Followers
+            <strong>{user?.followers.length}</strong> Followers
           </h5>
         </div>
       </div>
