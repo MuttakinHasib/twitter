@@ -1,4 +1,5 @@
 import { attemptActivation } from '@features/auth/authActions';
+import { withAuthRedirect } from '@hoc/withAuthRedirect';
 import { useRouter } from 'next/dist/client/router';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -18,4 +19,4 @@ const AccountActivationPage = () => {
   return null;
 };
 
-export default AccountActivationPage;
+export default withAuthRedirect(AccountActivationPage);

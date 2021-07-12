@@ -1,8 +1,7 @@
 import { Loader } from '@components/shared';
-import { attemptLogin } from '@features/auth/authActions';
 import { attemptPasswordResetRequest } from '@features/user/userActions';
+import { withAuthRedirect } from '@hoc/withAuthRedirect';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -61,4 +60,4 @@ const PasswordForgotPage = () => {
   );
 };
 
-export default PasswordForgotPage;
+export default withAuthRedirect(PasswordForgotPage);
