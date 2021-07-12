@@ -1,0 +1,46 @@
+Backend Development
+
+[+] Project Structure
+[+] Schema Design
+[+] Protected Route Middleware
+[+] Error Handler Middleware
+[+] Uploader Middleware
+[+] Cloudinary Integration
+[+] Nodemailer with Gmail
+[+] Register User
+[+] Active User By Email Verification
+[+] Login User
+[+] User Profile Details
+[+] Get Profile By ID
+[+] Update Profile
+[+] Update Profile Picture
+[+] Reset Password Request
+[+] Change Password
+[+] Follow User
+[+] Unfolow User
+[+] Compose Tweet
+[+] Delete Tweet
+[+] Get Tweets
+[+] Get User Tweet
+[+] Like Tweet
+[+] Unlike Tweet
+[+] Pagination
+
+Frontend Development
+
+[+] Setup Next.js
+[+] Add Tailwind CSS
+[+] Redux Toolkit
+[+] Redux Persist
+[+] React Query
+[+] Protected Routes (HOC)
+[+] React Hot Toast
+[+] Loader / Spinner
+[+] Index Page
+[+] Signup Page
+[+] Login Page
+[+] Password Reset Request Page
+[+] Password Reset/Change Page
+[+] Home Page
+[+] Profile Page
+[+] Connect Page
