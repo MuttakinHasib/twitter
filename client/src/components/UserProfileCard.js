@@ -1,16 +1,13 @@
 import Moment from 'react-moment';
-
+import { Image } from 'cloudinary-react';
 const UserProfileCard = ({ tweets, user }) => {
   return (
     <div className='border border-gray-200 py-5 px-10 mt-5'>
       <div className='flex items-center justify-between mb-5'>
         <div className='flex items-end gap-5 flex-wrap'>
           <div className='relative w-28 h-28 rounded-full group overflow-hidden transition duration-300'>
-            <img
-              src={user?.avatar}
-              alt=''
-              className='w-full h-full object-cover block'
-            />
+            <div className='absolute top-0 left-0 w-full h-full group-hover:bg-black/5 transition duration-300' />
+            <Image src={user?.avatar} />
           </div>
           <div className='space-y-3'>
             <h3 className='text-xl text-gray-800 font-medium'>{user?.name}</h3>

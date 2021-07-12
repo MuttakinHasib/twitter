@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { ComposeCard, PostCard } from '@components/index';
+import { ComposeCard, Loader, PostCard } from '@components/index';
 import { withAuthRoute } from '@hoc/withAuthRoute';
 import { useQuery, useQueryClient } from 'react-query';
 import { getTweets } from '@utils/api';
@@ -27,7 +27,7 @@ const HomePage = () => {
     setOffset(_offset);
   };
 
-  if (isLoading) return 'Loading...';
+  if (isLoading) return <Loader section />;
 
   return (
     <>

@@ -1,5 +1,5 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   API_URL,
   errorAlert,
@@ -20,11 +20,10 @@ export const attemptPasswordResetRequest = createAsyncThunk(
   async email => {
     try {
       const { data } = await axios.post(
-        `/api/user/forget-password`,
+        `${API_URL}/api/user/forget-password`,
         email,
         config
       );
-      errorAlert(data.error);
       successAlert(data.message);
     } catch (err) {
       errorAlert(handleErrorMessage(err));
@@ -35,42 +34,14 @@ export const attemptPasswordResetRequest = createAsyncThunk(
 
 export const attemptChangePassword = createAsyncThunk(
   'user/attemptChangePassword',
-  async email => {
+  async formData => {
     try {
       const { data } = await axios.post(
-        `/api/user/change-password`,
-        email,
+        `${API_URL}/api/user/change-password`,
+        formData,
         config
       );
-      errorAlert(data.error);
       successAlert(data.message);
-    } catch (err) {
-      errorAlert(handleErrorMessage(err));
-      return handleErrorMessage(err);
-    }
-  }
-);
-
-export const attemptGetUserProfile = createAsyncThunk(
-  'user/attemptGetUserProfile',
-  async (_, { dispatch, getState }) => {
-    try {
-      const { user } = getState().auth;
-
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
-      const { data } = await axios.get(`/api/user/profile`, config);
-
-      errorAlert(data.error);
-      successAlert(data.message);
-      dispatch(updateAuthUser(data.user));
-
-      return data;
     } catch (err) {
       errorAlert(handleErrorMessage(err));
       return handleErrorMessage(err);

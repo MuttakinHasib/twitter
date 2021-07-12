@@ -1,23 +1,16 @@
 import { API_URL } from '@utils/index';
-import { getProfile } from '@utils/api';
 import axios from 'axios';
 import { useState } from 'react';
 import Moment from 'react-moment';
-import { useQuery } from 'react-query';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Spinner from 'react-loader-spinner';
 import { attemptUpdateProfile } from '@features/user/userActions';
 import ProfileEditModel from './ProfileEditModel';
 
-const ProfileCard = ({ tweets }) => {
+const ProfileCard = ({ tweets, profile }) => {
   const dispatch = useDispatch();
   const [uploading, setUploading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const {
-    user: { token },
-  } = useSelector(state => state.auth);
-
-  const { data: profile, isLoading } = useQuery(['profile', token], getProfile);
 
   const handleAvatar = async e => {
     e.preventDefault();
@@ -50,10 +43,8 @@ const ProfileCard = ({ tweets }) => {
     }
   };
 
-  if (isLoading) return 'Loading...';
-
   return (
-    <div className='border border-gray-200 py-5 px-10 mt-5'>
+    <div className='border border-gray-200 py-5 px-10 mt-5 relative'>
       <div className='flex items-center justify-between mb-5'>
         <div className='flex items-end gap-5 flex-wrap'>
           <div className='relative w-28 h-28 rounded-full group overflow-hidden transition duration-300'>
@@ -102,10 +93,11 @@ const ProfileCard = ({ tweets }) => {
         </div>
 
         <button
-          className='border-2 border-primary text-primary bg-white py-2 px-10 rounded-3xl cursor-pointer hover:text-white hover:bg-primary/90 transition duration-300 focus:outline-none'
+          className='absolute top-5 right-5 sm:static border-2 border-primary text-primary bg-white py-2 px-10 rounded-3xl cursor-pointer hover:text-white hover:bg-primary/90 transition duration-300 focus:outline-none'
           onClick={() => setIsOpen(true)}
         >
-          Edit profile
+          <span className='hidden sm:block'>Edit Profile</span>
+          <span className='sm:hidden'>Edit</span>
         </button>
       </div>
       <div className='flex items-center gap-5 flex-wrap'>

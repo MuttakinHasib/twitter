@@ -1,4 +1,4 @@
-import { UserPostCard, UserProfileCard } from '@components/index';
+import { Loader, UserPostCard, UserProfileCard } from '@components/index';
 import { withAuthRoute } from '@hoc/withAuthRoute';
 import { getUserById, getUserTweets } from '@utils/api';
 import { useEffect, useState } from 'react';
@@ -13,11 +13,14 @@ const UserProfilePage = () => {
   const client = useQueryClient();
   const [offset, setOffset] = useState(0);
   const {
-    user: { _id, token },
+    user: { token },
   } = useSelector(state => state.auth);
 
   const { data: user, isLoading } = useQuery(['users', id], getUserById);
-  const { data } = useQuery(['tweets', id, offset, token], getUserTweets);
+  const { data, isLoading: isTweetsLoading } = useQuery(
+    ['tweets', id, offset, token],
+    getUserTweets
+  );
 
   useEffect(() => {
     if (id) {
@@ -36,10 +39,11 @@ const UserProfilePage = () => {
     setOffset(_offset);
   };
 
-  if (isLoading) return 'Loading...';
+  if (isLoading || isTweetsLoading) return <Loader section />;
+
   return (
     <>
-      <UserProfileCard tweets={data?.pages} {...{ user }} />
+      {user && <UserProfileCard tweets={data?.pages} {...{ user }} />}
       {data?.tweets?.length > 0 && (
         <div className='border border-gray-200 divide-y divide-gray-200 mt-5'>
           {data?.tweets?.map(tweet => (

@@ -27,13 +27,15 @@ const ConnectCard = ({ user }) => {
   };
 
   return (
-    <div className='px-5 py-6 flex flex-wrap gap-3 hover:bg-gray-100 transition duration-300'>
+    <div className='px-5 py-6 flex flex-col sm:flex-row flex-wrap gap-3 hover:bg-gray-100 transition duration-300 relative'>
       <img src={user.avatar} alt='' className='w-16 h-16 rounded-full' />
       <div className='flex-1'>
         <div className='flex justify-between'>
           <div>
             <Link href={`/profile/${user._id}`}>
-              <a className='text-lg font-medium text-gray-800 hover:underline'>{user.name}</a>
+              <a className='text-lg font-medium text-gray-800 hover:underline'>
+                {user.name}
+              </a>
             </Link>
             <a
               href={`mailto:${user.email}`}
@@ -46,14 +48,14 @@ const ConnectCard = ({ user }) => {
             <>
               {following ? (
                 <button
-                  className='border-2 border-primary text-white bg-primary py-2 h-11 px-8 rounded-3xl cursor-pointer hover:bg-red-500 hover:border-red-500 transition duration-300'
+                  className='absolute top-3 right-3 sm:static border-2 border-primary text-white bg-primary py-2 h-11 px-8 rounded-3xl cursor-pointer hover:bg-red-500 hover:border-red-500 transition duration-300'
                   onClick={() => handleUnFollow(user._id)}
                 >
                   Following
                 </button>
               ) : (
                 <button
-                  className='border-2 border-primary text-primary bg-white py-2 h-11 px-8 rounded-3xl cursor-pointer hover:bg-primary/10 transition duration-300'
+                  className='absolute top-3 right-3 sm:static border-2 border-primary text-primary bg-white py-2 h-11 px-8 rounded-3xl cursor-pointer hover:bg-primary/10 transition duration-300'
                   onClick={() => handleFollow(user._id)}
                 >
                   Follow

@@ -1,6 +1,6 @@
-import { PostCard, ProfileCard } from '@components/index';
+import { Loader, PostCard, ProfileCard } from '@components/index';
 import { withAuthRoute } from '@hoc/withAuthRoute';
-import { getUserTweets } from '@utils/api';
+import { getProfile, getUserTweets } from '@utils/api';
 import { useEffect, useState } from 'react';
 import { useQueryClient, useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,9 @@ const ProfilePage = () => {
     user: { _id, token },
   } = useSelector(state => state.auth);
 
-  const { data, isLoading } = useQuery(
+  const { data: profile, isLoading } = useQuery(['profile', token], getProfile);
+
+  const { data, isLoading: isTweetsLoading } = useQuery(
     ['tweets', _id, offset, token],
     getUserTweets
   );
@@ -29,10 +31,10 @@ const ProfilePage = () => {
     setOffset(_offset);
   };
 
-  if (isLoading) return 'Loading...';
+  if (isLoading || isTweetsLoading) return <Loader section />;
   return (
     <>
-      <ProfileCard tweets={data?.pages} />
+      <ProfileCard tweets={data?.pages} {...{ profile }} />
       {data?.tweets?.length > 0 && (
         <div className='border border-gray-200 divide-y divide-gray-200 mt-5'>
           {data?.tweets?.map(tweet => (

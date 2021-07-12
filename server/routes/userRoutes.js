@@ -1,12 +1,14 @@
 import express from 'express';
 import {
   activeUser,
+  changePassword,
   followUser,
   getUserById,
   getUserProfile,
   getUsers,
   login,
   register,
+  requestResetPassword,
   unFollowUser,
   updateUserProfile,
 } from '../controllers/userController.js';
@@ -19,11 +21,13 @@ router
   .route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
-  router.post('/register', register);
-  router.post('/login', login);
-  router.post('/active', activeUser);
-  router.route('/follow').put(protect, followUser);
-  router.route('/unfollow').post(protect, unFollowUser);
-  router.get('/:id', getUserById);
-  
+router.post('/register', register);
+router.post('/login', login);
+router.post('/forget-password', requestResetPassword);
+router.post('/change-password', changePassword);
+router.post('/active', activeUser);
+router.route('/follow').put(protect, followUser);
+router.route('/unfollow').post(protect, unFollowUser);
+router.get('/:id', getUserById);
+
 export default router;

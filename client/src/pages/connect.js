@@ -4,6 +4,7 @@ import Pagination from 'material-ui-flat-pagination';
 import { getUsers } from '@utils/api';
 import { useQuery, useQueryClient } from 'react-query';
 import { useEffect, useState } from 'react';
+import { Loader } from '@components/shared';
 
 const ConnectPage = () => {
   const client = useQueryClient();
@@ -20,7 +21,7 @@ const ConnectPage = () => {
     setOffset(_offset);
   };
 
-  if (isLoading) return 'Loading...';
+  if (isLoading) return <Loader section />;
 
   return (
     <div className='max-w-3xl w-full mx-auto border border-t-0 border-gray-200 divide-y divide-gray-200'>
