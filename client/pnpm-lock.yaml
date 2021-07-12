@@ -9,6 +9,7 @@ specifiers:
   axios: ^0.21.1
   cloudinary-react: ^1.7.0
   material-ui-flat-pagination: ^4.1.2
+  moment: ^2.29.1
   next: 11.0.1
   postcss: ^8.3.5
   react: 17.0.2
@@ -16,6 +17,7 @@ specifiers:
   react-hook-form: ^7.10.1
   react-hot-toast: ^2.0.0
   react-loader-spinner: ^4.0.0
+  react-moment: ^1.1.1
   react-query: ^3.18.1
   react-redux: ^7.2.4
   redux-logger: ^3.0.6
@@ -30,12 +32,14 @@ dependencies:
   axios: 0.21.1
   cloudinary-react: 1.7.0_react@17.0.2
   material-ui-flat-pagination: 4.1.2_663bafe83397cc7fdc2f7d7d18f22c42
+  moment: 2.29.1
   next: 11.0.1_react-dom@17.0.2+react@17.0.2
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-hook-form: 7.10.1_react@17.0.2
   react-hot-toast: 2.0.0_react-dom@17.0.2+react@17.0.2
   react-loader-spinner: 4.0.0_react-dom@17.0.2+react@17.0.2
+  react-moment: 1.1.1_moment@2.29.1+react@17.0.2
   react-query: 3.18.1_react-dom@17.0.2+react@17.0.2
   react-redux: 7.2.4_react-dom@17.0.2+react@17.0.2
   redux-logger: 3.0.6
@@ -1734,6 +1738,10 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /moment/2.29.1:
+    resolution: {integrity: sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==}
+    dev: false
+
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
     dev: false
@@ -2286,6 +2294,17 @@ packages:
       prop-types: 15.7.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /react-moment/1.1.1_moment@2.29.1+react@17.0.2:
+    resolution: {integrity: sha512-WjwvxBSnmLMRcU33do0KixDB+9vP3e84eCse+rd+HNklAMNWyRgZTDEQlay/qK6lcXFPRuEIASJTpEt6pyK7Ww==}
+    peerDependencies:
+      moment: ^2.29.0
+      prop-types: ^15.7.0
+      react: ^16.0 || ^17.0.0
+    dependencies:
+      moment: 2.29.1
+      react: 17.0.2
     dev: false
 
   /react-query/3.18.1_react-dom@17.0.2+react@17.0.2:
