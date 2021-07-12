@@ -6,11 +6,7 @@ class MyDocument extends Document {
       <Html lang='en'>
         <Head>
           {/* <meta name='image' content='/banner.png' /> */}
-          <meta property='og:title' content='Hasib Molla' />
-          <meta
-            name='google-site-verification'
-            content='LUBT9DCkD_bj06Z0b5imXXQiZXiwadd3gYjzqN9yDy8'
-          />
+          <meta property='og:title' content='Felicity Twitter' />
           <meta
             name='description'
             content='Hasib is a passionate self-taught Full Stack web developer from Bangladesh who develop web applications, mobile applications and desktop applications.'
@@ -25,7 +21,7 @@ class MyDocument extends Document {
 
           <meta name='twitter:card' content='summary_large_image' />
           <meta name='twitter:creator' content='@MuttakinHasib' />
-          <meta name='twitter:title' content='Hasib Molla' />
+          <meta name='twitter:title' content='Felicity Twitter' />
           <meta
             name='twitter:description'
             content='Hasib is a passionate self-taught Full Stack web developer from Bangladesh who develop web applications, mobile applications and desktop applications '
