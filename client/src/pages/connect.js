@@ -5,6 +5,7 @@ import { getUsers } from '@utils/api';
 import { useQuery, useQueryClient } from 'react-query';
 import { useEffect, useState } from 'react';
 import { Loader } from '@components/shared';
+import Head from 'next/head';
 
 const ConnectPage = () => {
   const client = useQueryClient();
@@ -25,6 +26,9 @@ const ConnectPage = () => {
 
   return (
     <div className='max-w-3xl w-full mx-auto border border-t-0 border-gray-200 divide-y divide-gray-200'>
+      <Head>
+        <title>Connect - Twitter</title>
+      </Head>
       <h1 className='text-3xl text-gray-800 py-3 px-5 font-semibold'>
         Who to follow
       </h1>

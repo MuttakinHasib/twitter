@@ -11,6 +11,7 @@ import { useQueryClient, useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import Pagination from 'material-ui-flat-pagination';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const UserProfilePage = () => {
   const { query } = useRouter();
@@ -48,6 +49,9 @@ const UserProfilePage = () => {
 
   return (
     <>
+      <Head>
+        <title>{user?.name ? user?.name : 'Profile'} - Twitter</title>
+      </Head>
       {user && <UserProfileCard tweets={data?.pages} {...{ user }} />}
       {data?.tweets?.length > 0 ? (
         <div className='border border-gray-200 divide-y divide-gray-200 mt-5'>

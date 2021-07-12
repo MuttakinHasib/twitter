@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useQueryClient, useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import Pagination from 'material-ui-flat-pagination';
+import Head from 'next/head';
 
 const ProfilePage = () => {
   const client = useQueryClient();
@@ -34,6 +35,9 @@ const ProfilePage = () => {
   if (isLoading || isTweetsLoading) return <Loader section />;
   return (
     <>
+      <Head>
+        <title>{profile?.name ? profile?.name : 'Profile'} - Twitter</title>
+      </Head>
       <ProfileCard tweets={data?.pages} {...{ profile }} />
       {data?.tweets?.length > 0 ? (
         <div className='border border-gray-200 divide-y divide-gray-200 mt-5'>
