@@ -89,6 +89,7 @@ const SignupPage = () => {
               id='birthday'
               type='date'
               required
+              placeholder='Date of birth'
               className='py-2 px-4 border-2 border-gray-100 focus:border-primary/50 focus:outline-none focus:ring-0'
               {...register('birthday', { required: true })}
             />
